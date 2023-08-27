@@ -12,7 +12,7 @@ ThemeData themeData() {
               color: AppColors.primary,
               fontWeight: FontWeight.w700,
               fontSize: 35),
-          bodyMedium: TextStyle(color: AppColors.purpleColor),
+          bodyMedium: TextStyle(color: AppColors.primary, fontSize: 20),
           headlineSmall: TextStyle(color: Colors.white)));
 }
 

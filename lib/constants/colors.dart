@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   //primary color
-  static const Color primary = Color(0xff2cb897);
-  static const Color purpleColor = Color(0xffac2cb8);
+ 
+  static const Color primary = Color(0xff771B4D);
+  static const Color greyLightColor = Color(0xffD9D9D9);
+  static const Color blueDarkColor = Color(0xff2A335F);
+
   static const Color lightPrimary = Color(0xffb2ebd8);
 }
+
+// font Istok Web
