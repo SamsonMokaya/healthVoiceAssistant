@@ -53,7 +53,7 @@ class _ProgressPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final double defaultProgressAngle = 2 * pi;
+    const double defaultProgressAngle = 2 * pi;
     final double finishedProgressAngle = 2 * pi * progress;
     final Paint defaultPaint = Paint()
       ..color = AppColors.primary

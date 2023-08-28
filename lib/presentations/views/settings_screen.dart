@@ -1,3 +1,6 @@
+import 'package:diseases/constants/colors.dart';
+import 'package:diseases/presentations/widgets/custom_drawer.dart';
+
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -5,6 +8,27 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    // final size = MediaQuery.of(context).size;
+    return Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: AppColors.blueDarkColor,
+          iconTheme:
+              const IconThemeData(color: AppColors.greyLightColor, size: 40),
+        ),
+        backgroundColor: AppColors.blueDarkColor,
+        drawer: const CustomDrawer(),
+        body: const Center(
+          child: Text(
+            'Configure Settings',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 25,
+              fontFamily: 'Istok Web',
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ));
   }
 }

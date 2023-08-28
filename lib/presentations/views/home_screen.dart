@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: AppColors.primary,
-          iconTheme: IconThemeData(color: Colors.white, size: 40),
+          iconTheme: const IconThemeData(color: Colors.white, size: 40),
         ),
         backgroundColor: AppColors.primary,
         drawer: const CustomDrawer(),

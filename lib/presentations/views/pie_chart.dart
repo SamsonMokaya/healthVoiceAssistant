@@ -17,7 +17,7 @@ class PieChart extends StatelessWidget {
           color: Colors.transparent, // Transparent inside
           style: BorderStyle.solid,
         ),
-        gradient: SweepGradient(
+        gradient: const SweepGradient(
           colors: [
             AppColors.lightPrimary, // Light primary color
             AppColors.primary, // Dark primary color
