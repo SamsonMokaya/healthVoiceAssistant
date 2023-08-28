@@ -7,7 +7,7 @@ class AppColors {
   static const Color greyLightColor = Color(0xffD9D9D9);
   static const Color blueDarkColor = Color(0xff2A335F);
 
-  static const Color lightPrimary = Color(0xffb2ebd8);
+  // static const Color  = Color(0xffb2ebd8);
 }
 
 // font Istok Web

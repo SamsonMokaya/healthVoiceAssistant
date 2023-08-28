@@ -11,19 +11,19 @@ class CustomDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
+          DrawerHeader(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 CircleAvatar(
                     radius: 40,
-                    backgroundColor: AppColors.lightPrimary,
-                    child: Icon(
+                    backgroundColor: AppColors.primary.withOpacity(.2),
+                    child: const Icon(
                       Icons.person,
                       size: 40,
                       color: Colors.black,
                     )),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text('John Doe',
                       style:
@@ -36,13 +36,13 @@ class CustomDrawer extends StatelessWidget {
           ListTile(
               leading: const Icon(Icons.person),
               title: const Text('Profile'),
-              onTap: () => Navigator.of(context).pushNamed(route.profileScreen,
+              onTap: () => Navigator.of(context).pushNamed(route.landingScreen,
                   arguments: {"page": "Airtime", "title": "Buy airtime"})),
           ListTile(
               leading: const Icon(Icons.bar_chart),
               title: const Text('Statistics'),
               onTap: () {
-                Navigator.pushNamed(context, route.statisticsScreen);
+                Navigator.pushNamed(context, route.landingScreen);
               }),
           ListTile(
               leading: const Icon(Icons.star),
@@ -52,7 +52,7 @@ class CustomDrawer extends StatelessWidget {
               leading: const Icon(Icons.settings),
               title: const Text('Settings'),
               onTap: () {
-                Navigator.pushNamed(context, route.settingsScreen);
+                Navigator.pushNamed(context, route.landingScreen);
               }),
           ListTile(
               leading: const Icon(Icons.logout),
