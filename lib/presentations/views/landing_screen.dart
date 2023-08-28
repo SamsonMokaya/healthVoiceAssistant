@@ -36,7 +36,7 @@ class LandingScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
                     boxShadow: [
                       BoxShadow(
                           color: Colors.black.withOpacity(0.2),
