@@ -1,7 +1,7 @@
 import 'package:diseases/constants/colors.dart';
 import 'package:diseases/presentations/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
-import '../../routes.dart' as route;
+// import '../../routes.dart' as route;
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,6 +10,11 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: AppColors.primary,
+          iconTheme: IconThemeData(color: Colors.white, size: 40),
+        ),
         backgroundColor: AppColors.primary,
         drawer: const CustomDrawer(),
         body: Column(

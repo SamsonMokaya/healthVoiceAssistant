@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../constants/colors.dart';
 import '../../routes.dart' as route;
+import 'logout.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -8,6 +9,7 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      width: MediaQuery.of(context).size.width * .7,
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
@@ -35,14 +37,21 @@ class CustomDrawer extends StatelessWidget {
           ),
           ListTile(
               leading: const Icon(Icons.person),
+              title: const Text('Home'),
+              onTap: () => Navigator.of(context).pushNamed(
+                    route.homeScreen,
+                  )),
+          ListTile(
+              leading: const Icon(Icons.person),
               title: const Text('Profile'),
-              onTap: () => Navigator.of(context).pushNamed(route.landingScreen,
-                  arguments: {"page": "Airtime", "title": "Buy airtime"})),
+              onTap: () => Navigator.of(context).pushNamed(
+                    route.homeScreen,
+                  )),
           ListTile(
               leading: const Icon(Icons.bar_chart),
-              title: const Text('Statistics'),
+              title: const Text('Suggestions'),
               onTap: () {
-                Navigator.pushNamed(context, route.landingScreen);
+                Navigator.pushNamed(context, route.suggestionsScreen);
               }),
           ListTile(
               leading: const Icon(Icons.star),
@@ -52,13 +61,13 @@ class CustomDrawer extends StatelessWidget {
               leading: const Icon(Icons.settings),
               title: const Text('Settings'),
               onTap: () {
-                Navigator.pushNamed(context, route.landingScreen);
+                Navigator.pushNamed(context, route.settingsScreen);
               }),
           ListTile(
               leading: const Icon(Icons.logout),
               title: const Text('Log out'),
               onTap: () {
-                // logOutDialog(context);
+                logOutDialog(context);
               }),
         ],
       ),

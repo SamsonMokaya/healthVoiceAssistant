@@ -24,9 +24,8 @@ class LandingScreen extends StatelessWidget {
             top: size.height / 5.5,
             child: Column(
               children: [
-                Positioned(
-                  child: Image.asset('assets/images/first_logo.png'),
-                ), // Replace with your image
+                Image.asset(
+                    'assets/images/first_logo.png'), // Replace with your image
                 const SizedBox(height: 10),
                 const Text(
                   'Welcome to your\n diagnosis assistant',

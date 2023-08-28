@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../constants/colors.dart';
+import '../../routes.dart' as route;
 
 Future<dynamic> logOutDialog(BuildContext context) {
   return showDialog(
@@ -41,8 +42,8 @@ Future<dynamic> logOutDialog(BuildContext context) {
                     const Text('Stay', style: TextStyle(color: Colors.black))),
             TextButton(
               onPressed: () {
-                // Navigator.pushNamedAndRemoveUntil(
-                // context, route.login, (Route route) => route.isFirst);
+                Navigator.pushNamedAndRemoveUntil(context, route.landingScreen,
+                    (Route route) => route.isFirst);
                 Navigator.pop(context);
               },
               style: TextButton.styleFrom(
