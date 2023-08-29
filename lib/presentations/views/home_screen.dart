@@ -1,10 +1,30 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:diseases/constants/colors.dart';
 import 'package:diseases/presentations/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:speech_to_text/speech_to_text.dart';
+
+import '../../constants/constants.dart';
 // import '../../routes.dart' as route;
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  // create a function to determine the right greeting message depending on the time of the day
+
+  var text = 'Tap mic to speak';
+  var isListening = false;
+
+  // store the message together with the greeting message in a variable
+  var message =
+      '${greetingMessage()}, what symptoms have been experiencing lately?';
+
+  SpeechToText speech = SpeechToText();
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +53,11 @@ class HomeScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
-              child: const Center(
+              child: Center(
                 child: Text(
-                  'Good morning, what symptoms have been experiencing lately?',
+                  message,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color(0xFF2A325F),
                     fontSize: 20,
                     fontFamily: 'Istok Web',
@@ -48,12 +68,63 @@ class HomeScreen extends StatelessWidget {
             ),
             Column(
               children: [
-                Image.asset('assets/images/mic 1.png',
-                    width: size.width / 2, height: size.width / 3),
-                const Text(
-                  'Tap mic to speak',
+                AvatarGlow(
+                  endRadius: size.width / 5,
+                  animate: isListening,
+                  duration: const Duration(milliseconds: 2000),
+                  repeat: true,
+                  repeatPauseDuration: const Duration(milliseconds: 100),
+                  showTwoGlows: true,
+                  glowColor: AppColors.greyLightColor,
+                  child: GestureDetector(
+                    onTap: () async {
+                      if (!isListening) {
+                        var available = await speech.initialize(
+                          onStatus: (status) {
+                            if (status == 'notListening') {
+                              setState(() {
+                                isListening = false;
+                                text = 'Tap mic to speak';
+                              });
+                            }
+                          },
+                          onError: (error) {
+                            setState(() {
+                              isListening = false;
+                              text = 'Tap mic to speak';
+                            });
+                          },
+                        );
+                        if (available) {
+                          setState(() {
+                            isListening = true;
+                            text = 'Listening...';
+                          });
+
+                          speech.listen(
+                            onResult: (value) => setState(() {
+                              message = value.recognizedWords;
+                            }),
+                          );
+                        } else {
+                          message = 'Speech recognition not available';
+                        }
+                      } else {
+                        speech.stop();
+                        setState(() {
+                          isListening = false;
+                          text = 'Tap mic to speak';
+                        });
+                      }
+                    },
+                    child: Image.asset('assets/images/mic 1.png',
+                        width: size.width / 4, height: size.width / 3),
+                  ),
+                ),
+                Text(
+                  text,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                     fontFamily: 'Istok Web',
