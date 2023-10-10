@@ -39,6 +39,11 @@ dependencies:
   equatable: ^2.0.5
   avatar_glow: ^2.0.2
   speech_to_text: ^6.3.0
+  http: ^1.1.0
+  shared_preferences: ^2.2.1
+  fluttertoast: ^8.2.2
+  flutter_svg: ^2.0.7
+  fluro: ^2.0.5
 
 dev_dependencies:
   flutter_test:
