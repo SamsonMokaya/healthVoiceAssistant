@@ -1,3 +1,4 @@
+import 'package:diseases/presentations/views/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:diseases/presentations/views/auth/login_screen.dart';
 import 'package:diseases/presentations/views/auth/otp.dart';
@@ -16,6 +17,7 @@ const String settingsScreen = 'settingsScreen';
 const String loginScreen = 'loginScreen';
 const String registerScreen = 'registerScreen';
 const String otpScreen = 'otpScreen';
+const String profileScreen = 'profileScreen';
 
 Route<dynamic> onGeneratedRoute(RouteSettings settings) {
   final Map<String, RouteBuilder> routes = {
@@ -29,6 +31,7 @@ Route<dynamic> onGeneratedRoute(RouteSettings settings) {
     settingsScreen: (context) => const SettingsScreen(),
     loginScreen: (context) => LoginScreen(),
     registerScreen: (context) => SignUpScreen(),
+    profileScreen: (context) => ProfilePage(),
   };
 
   final RouteBuilder? builder = routes[settings.name];

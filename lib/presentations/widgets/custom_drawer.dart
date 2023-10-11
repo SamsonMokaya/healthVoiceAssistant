@@ -47,7 +47,7 @@ class CustomDrawer extends StatelessWidget {
               leading: const Icon(Icons.person),
               title: const Text('Profile'),
               onTap: () => Navigator.of(context).pushNamed(
-                    route.homeScreen,
+                    route.profileScreen,
                   )),
           ListTile(
               leading: const Icon(Icons.bar_chart),

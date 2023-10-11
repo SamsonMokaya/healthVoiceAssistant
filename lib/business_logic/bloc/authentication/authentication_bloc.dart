@@ -84,6 +84,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onLogOut(LogOut event, Emitter<AuthState> emit) async {
     try {
       await _authRepository.logOut();
+      currentUser = UserModel.empty;
       emit(AuthenticationSuccess(user: UserModel.empty, action: 'logout'));
     } catch (e) {
       emit(AuthenticationError(errorMessage: e.toString(), action: 'logout'));

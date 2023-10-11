@@ -11,6 +11,7 @@ import 'package:diseases/routes.dart' as route;
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'business_logic/bloc/auth_status/auth_status_bloc.dart';
+import 'business_logic/cubit/profile_page_view/profile_view_cubit.dart';
 import 'business_logic/cubit/togglePassword/toggle_password_cubit.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -56,6 +57,8 @@ class MyApp extends StatelessWidget {
           BlocProvider<TogglePasswordCubit>(
             create: (context) => TogglePasswordCubit(),
           ),
+          BlocProvider<ProfileViewCubit>(
+              create: (context) => ProfileViewCubit()),
         ],
         child: BlocListener<AuthBloc, AuthState>(
           listener: (authcontext, state) {

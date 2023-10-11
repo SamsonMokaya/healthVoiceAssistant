@@ -11,6 +11,10 @@ class AuthenticationLoding extends AuthState {
   const AuthenticationLoding({required String action}) : super(action: action);
 }
 
+class AuthenticationInitial extends AuthState {
+  const AuthenticationInitial({required String action}) : super(action: action);
+}
+
 class LoginInProgress extends AuthState {
   const LoginInProgress() : super(action: 'login');
 }
