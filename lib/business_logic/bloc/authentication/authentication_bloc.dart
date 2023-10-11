@@ -30,6 +30,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         lastName: event.lastName,
       );
       if (user != null) {
+        currentUser = user;
         emit(AuthenticationSuccess(user: user, action: 'register'));
       } else {
         emit(const AuthenticationError(errorMessage: '', action: 'register'));
@@ -47,27 +48,32 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       String message = '';
       if (event.otp.isNotEmpty) {
         user = await _authRepository.login(
-          email: event.username,
+          email: event.email,
           password: event.password,
           otp: event.otp,
         );
+        print('-------- login changing user ----------');
+        print(user.toJson());
       } else {
         user = UserModel(
-          email: event.username,
+          email: event.email,
           password: event.password,
           otp: '',
         );
-        bool done = await _authRepository.sendOtp(email: event.username);
+        print('-------- otp changing user ----------');
+        print(user.toJson());
+        bool done = await _authRepository.sendOtp(email: event.email);
         if (done) {
-          message = 'Otp successfully sent to ${event.username}';
+          message = 'Otp successfully sent to ${event.email}';
         }
       }
       currentUser = user;
-      if (user != null) {
+      if (user.email != null) {
         emit(AuthenticationSuccess(
             user: user, message: message, action: 'login'));
       } else {
-        emit(const AuthenticationError(errorMessage: '', action: 'login'));
+        emit(const AuthenticationError(
+            errorMessage: 'User email is empty', action: 'login'));
       }
     } catch (e) {
       String errorMessage = e.toString().replaceAll('Exception:', '');

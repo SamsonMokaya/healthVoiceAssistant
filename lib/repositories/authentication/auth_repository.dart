@@ -54,9 +54,10 @@ class AuthRepository extends BaseAuthRepository {
         ));
     print(response.body);
     final responseData = jsonDecode(response.body);
-    print(responseData);
+    
     if (response.statusCode == 200) {
       UserModel user = UserModel.fromJson(responseData['data']);
+      print(user.toJson());
       preferences.setString('user', jsonEncode(user));
       return user;
     } else {
@@ -76,9 +77,11 @@ class AuthRepository extends BaseAuthRepository {
           {"email": email},
         ));
 
+    print(response.body);
+
     final responseData = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      bool sent = responseData['data'];
+      // bool sent = responseData['data'];
       return true;
     } else {
       throw Exception(responseData['message'] ??

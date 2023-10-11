@@ -1,18 +1,34 @@
+import 'package:diseases/business_logic/bloc/auth_status/auth_status_bloc.dart';
+import 'package:diseases/business_logic/bloc/authentication/authentication_bloc.dart';
 import 'package:diseases/constants/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../routes.dart' as route;
 
-class Otp extends StatelessWidget {
+class Otp extends StatefulWidget {
   final VoidCallback? onPressed;
-  Otp({super.key, this.onPressed});
+  final String email;
+  final String password;
+  Otp({super.key, this.onPressed, required this.email, required this.password});
 
+  @override
+  State<Otp> createState() => _OtpState();
+}
+
+class _OtpState extends State<Otp> {
   final TextEditingController _firstController = TextEditingController();
+
   final TextEditingController _secondController = TextEditingController();
+
   final TextEditingController _thirdController = TextEditingController();
+
   final TextEditingController _fourthController = TextEditingController();
+
   final TextEditingController _fifthController = TextEditingController();
+
   final TextEditingController _sixthController = TextEditingController();
 
   @override
@@ -28,7 +44,8 @@ class Otp extends StatelessWidget {
               Align(
                 alignment: Alignment.topLeft,
                 child: GestureDetector(
-                  onTap: () => Navigator.pop(context),
+                  onTap: () => Navigator.pushReplacementNamed(
+                      context, route.loginScreen),
                   child: const Icon(
                     Icons.arrow_back,
                     size: 32,
@@ -124,30 +141,49 @@ class Otp extends StatelessWidget {
                     ),
                     SizedBox(
                       width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: onPressed ??
-                            () {
-                              Navigator.of(context).pushNamed(route.homeScreen);
+                      child: BlocBuilder<AuthBloc, AuthState>(
+                        builder: (context, state) {
+                          return ElevatedButton(
+                            onPressed: () {
+                              context.read<AuthBloc>().add(Login(
+                                    email: widget.email,
+                                    password: widget.password,
+                                    otp: _firstController.text +
+                                        _secondController.text +
+                                        _thirdController.text +
+                                        _fourthController.text +
+                                        _fifthController.text +
+                                        _sixthController.text,
+                                  ));
+                              context
+                                  .read<AuthStatusBloc>()
+                                  .add(CheckUserStatus());
                             },
-                        style: ButtonStyle(
-                          foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.white),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              AppColors.primary),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24.0),
+                            style: ButtonStyle(
+                              foregroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.white),
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  AppColors.primary),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(24.0),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(14.0),
-                          child: Text(
-                            'Verify',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(14.0),
+                              child: (state is LoginInProgress)
+                                  ? const CupertinoActivityIndicator(
+                                      color: AppColors.whiteColor,
+                                    )
+                                  : const Text(
+                                      'Verify',
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                            ),
+                          );
+                        },
                       ),
                     )
                   ],

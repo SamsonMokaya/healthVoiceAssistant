@@ -1,4 +1,3 @@
-import 'package:diseases/business_logic/bloc/auth_status/auth_status_bloc.dart';
 import 'package:diseases/business_logic/bloc/authentication/authentication_bloc.dart';
 import 'package:diseases/business_logic/cubit/togglePassword/toggle_password_cubit.dart';
 import 'package:diseases/constants/colors.dart';
@@ -185,19 +184,7 @@ class SignUpScreen extends StatelessWidget {
                               }
                             }
                           },
-                          child: BlocConsumer<AuthBloc, AuthState>(
-                            listener: (context, state) {
-                              if (state is AuthenticationError &&
-                                  state.action == 'register') {
-                                Fluttertoast.showToast(
-                                    msg: state.errorMessage,
-                                    backgroundColor: Colors.red);
-                              } else if (state is AuthenticationSuccess &&
-                                  state.action == 'register') {
-                                Navigator.of(context)
-                                    .pushNamed(route.loginScreen);
-                              }
-                            },
+                          child: BlocBuilder<AuthBloc, AuthState>(
                             builder: (context, state) {
                               if (state is RegistrationInProgress) {
                                 return const CupertinoActivityIndicator(

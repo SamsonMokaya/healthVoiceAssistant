@@ -1,4 +1,4 @@
-import 'package:diseases/business_logic/bloc/auth_status/auth_status_bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:diseases/presentations/views/auth/login_screen.dart';
 import 'package:diseases/presentations/views/auth/otp.dart';
 import 'package:diseases/presentations/views/auth/sign_up_screen.dart';
@@ -6,7 +6,6 @@ import 'package:diseases/presentations/views/home_screen.dart';
 import 'package:diseases/presentations/views/landing_screen.dart';
 import 'package:diseases/presentations/views/settings_screen.dart';
 import 'package:diseases/presentations/views/suggestion_screen.dart';
-import 'package:flutter/material.dart';
 
 typedef RouteBuilder = Widget Function(BuildContext context);
 
@@ -18,12 +17,14 @@ const String loginScreen = 'loginScreen';
 const String registerScreen = 'registerScreen';
 const String otpScreen = 'otpScreen';
 
-Route<dynamic> onGeneratedRoute(
-    RouteSettings settings, AuthStatusState authStatus) {
+Route<dynamic> onGeneratedRoute(RouteSettings settings) {
   final Map<String, RouteBuilder> routes = {
     landingScreen: (context) => const LandingScreen(),
     homeScreen: (context) => const HomeScreen(),
-    otpScreen: (context) =>  Otp(),
+    otpScreen: (context) {
+      final arguments = settings.arguments as Map<String, dynamic>? ?? {};
+      return Otp(email: arguments['email'], password: arguments['password']);
+    },
     suggestionsScreen: (context) => const SuggestionsScreen(),
     settingsScreen: (context) => const SettingsScreen(),
     loginScreen: (context) => LoginScreen(),
@@ -32,19 +33,8 @@ Route<dynamic> onGeneratedRoute(
 
   final RouteBuilder? builder = routes[settings.name];
   if (builder != null) {
-    if (authStatus is UserAuthenticated ||
-        !requiresAuth.contains(settings.name)) {
-      return MaterialPageRoute(builder: builder);
-    } else {
-      return MaterialPageRoute(builder: (context) => LoginScreen());
-    }
+    return MaterialPageRoute(builder: builder);
   } else {
     throw ('This route name does not exist yet');
   }
 }
-
-const List<String> requiresAuth = [
-  homeScreen,
-  suggestionsScreen,
-  settingsScreen
-];

@@ -28,21 +28,21 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      userId: json['user_id'],
-      firstName: json['first_name'],
-      lastName: json['last_name'],
-      email: json['email'],
-      token: json['token'],
-      password: json['password'],
-      otp: json['otp'],
+      userId: json['userId'] ?? '',
+      firstName: json['firstName'] ?? '',
+      lastName: json['lastName'] ?? '',
+      email: json['email'] ?? '',
+      token: json['token'] ?? '',
+      password: json['password'] ?? '',
+      otp: json['otp'] ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'user_id': userId,
-      'first_name': firstName,
-      'last_name': lastName,
+      'userId': userId,
+      'firstName': firstName,
+      'lastName': lastName,
       'email': email,
       'otp': otp,
       'token': token,

@@ -8,13 +8,13 @@ abstract class AuthEvent extends Equatable {
 class StartApp extends AuthEvent {}
 
 class Login extends AuthEvent {
-  final String username;
+  final String email;
   final String password;
   final String otp;
 
-  Login({required this.username, required this.password, required this.otp});
+  Login({required this.email, required this.password, required this.otp});
   @override
-  List<Object> get props => [username, password, otp];
+  List<Object> get props => [email, password, otp];
 }
 
 class Register extends AuthEvent {

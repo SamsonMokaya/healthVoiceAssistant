@@ -1,4 +1,3 @@
-import 'package:diseases/business_logic/bloc/auth_status/auth_status_bloc.dart';
 import 'package:diseases/business_logic/bloc/authentication/authentication_bloc.dart';
 import 'package:diseases/business_logic/cubit/togglePassword/toggle_password_cubit.dart';
 import 'package:diseases/constants/colors.dart';
@@ -129,36 +128,25 @@ class LoginScreen extends StatelessWidget {
                                   msg: 'All fields are required!');
                             } else {
                               context.read<AuthBloc>().add(Login(
-                                  username: _usernameController.text,
+                                  email: _usernameController.text,
                                   password: _passwordController.text,
                                   otp: ''));
                             }
                           },
-                          child: BlocConsumer<AuthBloc, AuthState>(
-                            listener: (context, state) {
-                              if (state is AuthenticationError &&
-                                  state.action == 'login') {
-                                Fluttertoast.showToast(msg: state.errorMessage);
-                              } else if (state is AuthenticationSuccess &&
-                                  state.action == 'login') {
-                                if (state.message.isNotEmpty) {
-                                  Fluttertoast.showToast(msg: state.message);
-                                }
-                                Navigator.pushReplacementNamed(
-                                    context, route.otpScreen);
-                              }
-                            },
+                          child: BlocBuilder<AuthBloc, AuthState>(
                             builder: (context, state) {
                               if (state is LoginInProgress) {
                                 return const CupertinoActivityIndicator(
                                   color: AppColors.whiteColor,
                                 );
                               } else {
-                                return const Text('Login',
-                                    style: TextStyle(
-                                        fontFamily: 'Ubuntu',
-                                        fontSize: 20,
-                                        color: AppColors.whiteColor));
+                                return const Text(
+                                  'Login',
+                                  style: TextStyle(
+                                      fontFamily: 'Ubuntu',
+                                      fontSize: 20,
+                                      color: AppColors.whiteColor),
+                                );
                               }
                             },
                           ),

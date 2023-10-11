@@ -1,3 +1,4 @@
+import 'package:diseases/constants/constants.dart';
 import 'package:flutter/material.dart';
 import '../../constants/colors.dart';
 import '../../routes.dart' as route;
@@ -25,11 +26,12 @@ class CustomDrawer extends StatelessWidget {
                       size: 40,
                       color: Colors.black,
                     )),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('John Doe',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                      '${currentUser.firstName} ${currentUser.lastName}',
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.left),
                 ),
               ],

@@ -75,8 +75,8 @@ class UsersRepository extends BaseUsersRepository {
   @override
   Future<bool> deleteUser({required String userId}) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    final response = await http
-        .delete(Uri.parse(Environment.DELETE_USER_URL + '/$userId'), headers: {
+    final response =
+        await http.delete(Uri.parse(Environment.DELETE_USER_URL), headers: {
       'Content-Type': 'application/json',
     });
 
