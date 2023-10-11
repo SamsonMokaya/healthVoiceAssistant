@@ -70,14 +70,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       currentUser = user;
       if (user.email != null) {
         emit(AuthenticationSuccess(
-            user: user, message: message, action: 'login'));
+            user: user,
+            message: message,
+            action: event.otp.isNotEmpty ? 'otp' : 'login'));
       } else {
-        emit(const AuthenticationError(
-            errorMessage: 'User email is empty', action: 'login'));
+        emit(AuthenticationError(
+            errorMessage: 'User email is empty',
+            action: event.otp.isNotEmpty ? 'otp' : 'login'));
       }
     } catch (e) {
       String errorMessage = e.toString().replaceAll('Exception:', '');
-      emit(AuthenticationError(errorMessage: errorMessage, action: 'login'));
+      emit(AuthenticationError(
+          errorMessage: errorMessage,
+          action: event.otp.isNotEmpty ? 'otp' : 'login'));
     }
   }
 

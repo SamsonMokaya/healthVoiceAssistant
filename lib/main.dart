@@ -79,6 +79,7 @@ class MyApp extends StatelessWidget {
                     .pushReplacementNamed(route.loginScreen);
               } else if (state.action == 'login') {
                 print('helloooooooo');
+                
                 navigatorKey.currentState!.pushReplacementNamed(
                   route.otpScreen,
                   arguments: {

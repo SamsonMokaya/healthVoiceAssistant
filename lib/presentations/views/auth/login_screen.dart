@@ -19,8 +19,6 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.watch<TogglePasswordCubit>().state;
     final size = MediaQuery.of(context).size;
-    _usernameController.text = 'kimatrocious@gmail.com';
-    _passwordController.text = 'password';
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
