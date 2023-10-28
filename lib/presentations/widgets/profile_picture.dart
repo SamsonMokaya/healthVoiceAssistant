@@ -7,7 +7,7 @@ class ProfilePicture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 120,
       width: 130,
       child: Stack(
@@ -20,7 +20,7 @@ class ProfilePicture extends StatelessWidget {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
             child: CachedNetworkImage(
               placeholder: (context, url) {
-                return CupertinoActivityIndicator();
+                return const CupertinoActivityIndicator();
               },
               errorWidget: (context, url, error) =>
                   const Image(image: AssetImage('assets/images/male-user.png')),

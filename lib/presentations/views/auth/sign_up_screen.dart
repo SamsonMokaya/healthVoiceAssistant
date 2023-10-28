@@ -49,7 +49,7 @@ class SignUpScreen extends StatelessWidget {
                       offset: Offset(0, 5),
                     ),
                   ]),
-              height: size.height * .8,
+              height: size.height * .85,
               child: Column(
                 // mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,

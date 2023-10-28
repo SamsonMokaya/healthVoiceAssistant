@@ -31,7 +31,7 @@ Route<dynamic> onGeneratedRoute(RouteSettings settings) {
     settingsScreen: (context) => const SettingsScreen(),
     loginScreen: (context) => LoginScreen(),
     registerScreen: (context) => SignUpScreen(),
-    profileScreen: (context) => ProfilePage(),
+    profileScreen: (context) => const ProfilePage(),
   };
 
   final RouteBuilder? builder = routes[settings.name];

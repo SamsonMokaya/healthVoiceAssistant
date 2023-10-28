@@ -22,7 +22,7 @@ class ProfileSummary extends StatelessWidget {
           builder: (context, state) {
         if (state is UserAuthenticated) {
           return SafeArea(
-            child: Container(
+            child: SizedBox(
               height: size.height * .1,
               width: size.width,
               child: Row(
@@ -59,7 +59,7 @@ class ProfileSummary extends StatelessWidget {
                               fontSize: 20,
                               fontWeight: FontWeight.bold)),
                       const SizedBox(height: 5),
-                      Text(state.user?.email ?? '',
+                      Text(state.user.email ?? '',
                           style: const TextStyle(
                               color: Colors.black,
                               fontSize: 13,

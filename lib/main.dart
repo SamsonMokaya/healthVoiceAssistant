@@ -79,7 +79,7 @@ class MyApp extends StatelessWidget {
                     .pushReplacementNamed(route.loginScreen);
               } else if (state.action == 'login') {
                 print('helloooooooo');
-                
+
                 navigatorKey.currentState!.pushReplacementNamed(
                   route.otpScreen,
                   arguments: {
@@ -108,7 +108,7 @@ class MyApp extends StatelessWidget {
               print('--------------auth status------- ');
             },
             builder: (context, state) => MaterialApp(
-              title: 'Geospur',
+              title: 'Diseases Prediction',
               navigatorKey: navigatorKey,
               debugShowCheckedModeBanner: false,
               theme: themeData(),

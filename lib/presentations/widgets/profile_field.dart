@@ -17,12 +17,12 @@ class ProfileField extends StatelessWidget {
                     .copyWith(fontSize: 14, fontWeight: FontWeight.w700)),
             Container(
               height: 50,
-              margin: EdgeInsets.only(top: 10, bottom: 10),
-              padding: EdgeInsets.symmetric(horizontal: 15),
+              margin: const EdgeInsets.only(top: 10, bottom: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               alignment: Alignment.centerLeft,
               width: size.width,
               decoration: BoxDecoration(
-                  color: Color(0xfff0f3fc),
+                  color: const Color(0xfff0f3fc),
                   borderRadius: BorderRadius.circular(8)),
               child: Text(value,
                   style: textTheme.displaySmall!.copyWith(

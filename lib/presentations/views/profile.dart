@@ -1,6 +1,5 @@
 import 'package:diseases/constants/constants.dart';
 import 'package:diseases/presentations/widgets/profile_field.dart';
-import 'package:diseases/presentations/widgets/profile_picture.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

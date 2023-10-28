@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../business_logic/bloc/auth_status/auth_status_bloc.dart';
 import '../../constants/colors.dart';
-import '../../routes.dart' as route;
 
 Future<dynamic> logOutDialog(BuildContext context) {
   return showDialog(
@@ -16,7 +15,7 @@ Future<dynamic> logOutDialog(BuildContext context) {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Mydaktari',
+                Text('Sign Out',
                     style: Theme.of(context)
                         .textTheme
                         .displayMedium!

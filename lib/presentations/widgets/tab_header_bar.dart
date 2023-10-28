@@ -22,7 +22,7 @@ class TabHeader extends StatelessWidget {
     return Container(
       height: size.height * .18,
       width: size.width,
-      decoration: BoxDecoration(color: AppColors.primary),
+      decoration: const BoxDecoration(color: AppColors.primary),
       child: Padding(
         padding: const EdgeInsets.only(left: 28.0),
         child: Row(

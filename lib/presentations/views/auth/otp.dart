@@ -12,7 +12,7 @@ class Otp extends StatefulWidget {
   final VoidCallback? onPressed;
   final String email;
   final String password;
-  Otp({super.key, this.onPressed, required this.email, required this.password});
+  const Otp({super.key, this.onPressed, required this.email, required this.password});
 
   @override
   State<Otp> createState() => _OtpState();
