@@ -47,7 +47,7 @@ class LandingScreen extends StatelessWidget {
                   ),
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed(route.homeScreen);
+                      Navigator.of(context).pushNamed(route.loginScreen);
                     },
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
