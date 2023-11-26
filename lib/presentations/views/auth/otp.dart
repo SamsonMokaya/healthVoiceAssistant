@@ -12,7 +12,8 @@ class Otp extends StatefulWidget {
   final VoidCallback? onPressed;
   final String email;
   final String password;
-  const Otp({super.key, this.onPressed, required this.email, required this.password});
+  const Otp(
+      {super.key, this.onPressed, required this.email, required this.password});
 
   @override
   State<Otp> createState() => _OtpState();
@@ -228,7 +229,7 @@ class _OtpState extends State<Otp> {
     return SizedBox(
       height: 65,
       child: AspectRatio(
-        aspectRatio: .75,
+        aspectRatio: .70,
         child: TextField(
           autofocus: true,
           onChanged: (value) {

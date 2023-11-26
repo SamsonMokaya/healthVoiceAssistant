@@ -1,4 +1,5 @@
 import 'package:diseases/business_logic/bloc/authentication/authentication_bloc.dart';
+import 'package:diseases/business_logic/cubit/speech_to_text/home_screen_cubit.dart';
 import 'package:diseases/constants/constants.dart';
 import 'package:diseases/constants/theme.dart';
 import 'package:diseases/repositories/authentication/auth_repository.dart';
@@ -95,7 +96,8 @@ class MyApp extends StatelessWidget {
           },
           child: BlocConsumer<AuthStatusBloc, AuthStatusState>(
             listener: (context, state) {
-              if (state is UserAuthenticated) {
+              if (state is UserAuthenticated &&
+                  (currentUser.otpVerified ?? true)) {
                 navigatorKey.currentState!
                     .pushReplacementNamed(route.homeScreen);
               } else {

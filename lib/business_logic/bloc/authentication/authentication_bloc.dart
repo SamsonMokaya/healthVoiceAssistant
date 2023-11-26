@@ -59,6 +59,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           email: event.email,
           password: event.password,
           otp: '',
+          otpVerified: false,
         );
         print('-------- otp changing user ----------');
         print(user.toJson());

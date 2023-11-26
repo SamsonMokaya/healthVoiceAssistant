@@ -54,8 +54,9 @@ class AuthRepository extends BaseAuthRepository {
         ));
     print(response.body);
     final responseData = jsonDecode(response.body);
-    
+
     if (response.statusCode == 200) {
+      responseData['data']['otpVerified'] = true;
       UserModel user = UserModel.fromJson(responseData['data']);
       print(user.toJson());
       preferences.setString('user', jsonEncode(user));

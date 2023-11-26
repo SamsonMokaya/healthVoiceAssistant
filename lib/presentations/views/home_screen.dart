@@ -1,11 +1,12 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:diseases/constants/colors.dart';
 import 'package:diseases/presentations/widgets/custom_drawer.dart';
+import 'package:diseases/presentations/widgets/success_dialogue.dart';
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 import '../../constants/constants.dart';
-// import '../../routes.dart' as route;
+import '../../routes.dart' as route;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -25,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
       '${greetingMessage()}, what symptoms have been experiencing lately?';
 
   SpeechToText speech = SpeechToText();
+  final TextEditingController _symptomsController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +88,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                 isListening = false;
                                 text = 'Tap mic to speak';
                               });
+                              successDialog(
+                                context: context,
+                                title: 'Confirm',
+                                success: true,
+                                focusNodes: true,
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  Navigator.pushNamed(
+                                      context, route.suggestionsScreen);
+                                },
+                                input: true,
+                                controller: _symptomsController,
+                                message: 'Do you want to send this message?',
+                              );
                             }
                           },
                           onError: (error) {

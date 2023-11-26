@@ -15,6 +15,10 @@ class SettingsScreen extends StatelessWidget {
           backgroundColor: AppColors.blueDarkColor,
           iconTheme:
               const IconThemeData(color: AppColors.greyLightColor, size: 40),
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back_rounded),
+          ),
         ),
         backgroundColor: AppColors.blueDarkColor,
         drawer: const CustomDrawer(),
