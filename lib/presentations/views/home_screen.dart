@@ -1,9 +1,13 @@
+import 'dart:typed_data';
+
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:diseases/constants/colors.dart';
 import 'package:diseases/presentations/widgets/custom_drawer.dart';
 import 'package:diseases/presentations/widgets/success_dialogue.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+
 
 import '../../constants/constants.dart';
 import '../../routes.dart' as route;
@@ -27,6 +31,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   SpeechToText speech = SpeechToText();
   final TextEditingController _symptomsController = TextEditingController();
+
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   glowColor: AppColors.greyLightColor,
                   child: GestureDetector(
                     onTap: () async {
+                      print("clicked");
                       if (!isListening) {
                         var available = await speech.initialize(
                           onStatus: (status) {
@@ -105,6 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             }
                           },
                           onError: (error) {
+                            Fluttertoast.showToast(msg: error.errorMsg);
                             setState(() {
                               isListening = false;
                               text = 'Tap mic to speak';
