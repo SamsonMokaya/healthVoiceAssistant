@@ -22,7 +22,7 @@ const String profileScreen = 'profileScreen';
 Route<dynamic> onGeneratedRoute(RouteSettings settings) {
   final Map<String, RouteBuilder> routes = {
     landingScreen: (context) => const LandingScreen(),
-    homeScreen: (context) => const HomeScreen(),
+    homeScreen: (context) => HomeScreen(),
     otpScreen: (context) {
       final arguments = settings.arguments as Map<String, dynamic>? ?? {};
       return Otp(email: arguments['email'], password: arguments['password']);

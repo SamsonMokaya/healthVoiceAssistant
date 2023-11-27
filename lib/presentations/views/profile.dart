@@ -47,7 +47,6 @@ class ProfilePage extends StatelessWidget {
       body: BlocBuilder<AuthStatusBloc, AuthStatusState>(
         builder: (context, state) {
           if (state is UserAuthenticated) {
-            final user = state.user;
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),

@@ -1,24 +1,25 @@
+import 'package:diseases/business_logic/cubit/speech_to_text/speech_to_text_cubit.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-Future<dynamic> successDialog(
-    {required BuildContext context,
-    bool success = false,
-    String route = '',
-    bool input = false,
-    VoidCallback? onPressed,
-    bool focusNodes = false,
-    TextEditingController? controller,
-    required String message,
-    required String title}) {
+Future<dynamic> successDialog({
+  required BuildContext context,
+  bool success = false,
+  String route = '',
+  bool input = false,
+  VoidCallback? onPressed,
+  bool focusNodes = false,
+  required String message,
+  required String title,
+}) {
   return showDialog(
       context: context,
       builder: (context) {
         FocusNode? focusNode;
+        final state = context.watch<SpeechToTextCubit>().state;
+        TextEditingController controller = state.controller;
 
-        if (focusNodes) {
-          focusNode = FocusNode();
-          FocusScope.of(context).requestFocus(focusNode);
-        }
         return AlertDialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -70,8 +71,8 @@ Future<dynamic> successDialog(
                       TextFormField(
                         controller: controller,
                         maxLines: 4,
-                        focusNode:
-                            focusNode, // assign the focus node to the input field
+                        autofocus: true,
+                        focusNode: focusNode,
                         decoration: InputDecoration(
                           hintText: 'Symptoms...',
                           border: OutlineInputBorder(
@@ -109,7 +110,9 @@ Future<dynamic> successDialog(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primary,
               ),
-              child: const Text('OK', style: TextStyle(color: Colors.white)),
+              child: state.loading
+                  ? const CupertinoActivityIndicator()
+                  : const Text('OK', style: TextStyle(color: Colors.white)),
             ),
           ],
         );

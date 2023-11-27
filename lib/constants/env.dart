@@ -2,11 +2,6 @@
 // ignore_for_file: constant_identifier_names
 
 class Environment {
-  static const String GOOGLE_API_URL = 'https://api.themoviedb.org/3';
-  static const String API_KEY = 'b4d0f6e2e0e2c4b2b2e2e0e2c4b2b2e2';
-  static const String IMAGE_URL = 'https://image.tmdb.org/t/p/w500';
-  static const String LANGUAGE = 'en-US';
-
   static const String BASE_URL = 'https://hva-backend.onrender.com/api/';
 
   // USERS URLS
@@ -20,4 +15,7 @@ class Environment {
   static const String LOGIN_URL = '$USERS_URL/signin';
   static const String REGISTER_URL = '$USERS_URL/signup';
   static const String OTP_URL = '$USERS_URL/otp';
+
+  // SYMPTOMS URLS
+  static const String EXTRACT_SYMPTOMS_URL = '$USERS_URL/extract';
 }

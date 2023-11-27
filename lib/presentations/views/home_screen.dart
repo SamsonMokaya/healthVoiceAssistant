@@ -1,46 +1,31 @@
-import 'dart:typed_data';
-
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:diseases/business_logic/bloc/extract_symptoms/extract_symptoms_bloc.dart';
+import 'package:diseases/business_logic/cubit/speech_to_text/speech_to_text_cubit.dart';
 import 'package:diseases/constants/colors.dart';
 import 'package:diseases/presentations/widgets/custom_drawer.dart';
 import 'package:diseases/presentations/widgets/success_dialogue.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-
 
 import '../../constants/constants.dart';
 import '../../routes.dart' as route;
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  // create a function to determine the right greeting message depending on the time of the day
-
-  var text = 'Tap mic to speak';
-  var isListening = false;
-
-  // store the message together with the greeting message in a variable
-  var message =
-      '${greetingMessage()}, what symptoms have been experiencing lately?';
+class HomeScreen extends StatelessWidget {
+  HomeScreen({Key? key}) : super(key: key);
 
   SpeechToText speech = SpeechToText();
-  final TextEditingController _symptomsController = TextEditingController();
-
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final state = context.watch<SpeechToTextCubit>().state;
+    var text = state.text;
+    var isListening = state.isListening;
+    var message = state.message;
+    final TextEditingController _symptomsController = state.controller;
+
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -88,65 +73,111 @@ class _HomeScreenState extends State<HomeScreen> {
                   repeatPauseDuration: const Duration(milliseconds: 100),
                   showTwoGlows: true,
                   glowColor: AppColors.greyLightColor,
-                  child: GestureDetector(
-                    onTap: () async {
-                      print("clicked");
-                      if (!isListening) {
-                        var available = await speech.initialize(
-                          onStatus: (status) {
-                            if (status == 'notListening') {
-                              setState(() {
-                                isListening = false;
-                                text = 'Tap mic to speak';
-                              });
-                              successDialog(
-                                context: context,
-                                title: 'Confirm',
-                                success: true,
-                                focusNodes: true,
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  Navigator.pushNamed(
-                                      context, route.suggestionsScreen);
-                                },
-                                input: true,
-                                controller: _symptomsController,
-                                message: 'Do you want to send this message?',
-                              );
-                            }
-                          },
-                          onError: (error) {
-                            Fluttertoast.showToast(msg: error.errorMsg);
-                            setState(() {
-                              isListening = false;
-                              text = 'Tap mic to speak';
-                            });
-                          },
-                        );
-                        if (available) {
-                          setState(() {
-                            isListening = true;
-                            text = 'Listening...';
-                          });
-
-                          speech.listen(
-                            onResult: (value) => setState(() {
-                              message = value.recognizedWords;
-                            }),
-                          );
-                        } else {
-                          message = 'Speech recognition not available';
-                        }
+                  child:
+                      BlocListener<ExtractSymptomsBloc, ExtractSymptomsState>(
+                    listener: (_, stateSymptoms) {
+                      if (stateSymptoms is ExtractSymptomsLoading) {
+                        context.read<SpeechToTextCubit>().toggleLoading(true);
                       } else {
-                        speech.stop();
-                        setState(() {
-                          isListening = false;
-                          text = 'Tap mic to speak';
-                        });
+                        context.read<SpeechToTextCubit>().toggleLoading(false);
+                      }
+                      if (stateSymptoms is ExtractSymptomsError) {
+                        print(stateSymptoms.errorMessage);
+                        Fluttertoast.showToast(
+                            msg: stateSymptoms.errorMessage,
+                            backgroundColor: Colors.red);
+                      } else if (stateSymptoms is ExtractSymptomsSuccess) {
+                        if (stateSymptoms.symptomsArray.isEmpty) {
+                          Navigator.pop(context);
+                          Fluttertoast.showToast(
+                              msg: 'No symptoms found from the words',
+                              backgroundColor: Colors.red);
+                          return;
+                        }
+                        Fluttertoast.showToast(
+                            msg: 'Symptoms extracted successfully',
+                            backgroundColor: Colors.green);
+                        _symptomsController.text =
+                            stateSymptoms.extractedSymptoms.join(', ');
+                        context
+                            .read<SpeechToTextCubit>()
+                            .testModel(stateSymptoms.symptomsArray);
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, route.suggestionsScreen);
                       }
                     },
-                    child: Image.asset('assets/images/mic 1.png',
-                        width: size.width / 4, height: size.width / 3),
+                    child: GestureDetector(
+                      onTap: () async {
+                        print("clicked");
+                        if (!isListening) {
+                          var available = await speech.initialize(
+                            onStatus: (status) {
+                              if (status == 'notListening') {
+                                print('Not listening');
+                                context
+                                    .read<SpeechToTextCubit>()
+                                    .toggleListening(false);
+                                context
+                                    .read<SpeechToTextCubit>()
+                                    .toggleText('Tap mic to speak');
+
+                                successDialog(
+                                  context: context,
+                                  title: 'Confirm',
+                                  success: true,
+                                  focusNodes: true,
+                                  onPressed: () {
+                                    context.read<ExtractSymptomsBloc>().add(
+                                        ExtractSymptoms(
+                                            text: _symptomsController.text));
+                                  },
+                                  input: true,
+                                  message: 'Do you want to send this message?',
+                                );
+                              }
+                            },
+                            onError: (error) {
+                              Fluttertoast.showToast(msg: error.errorMsg);
+                              context
+                                  .read<SpeechToTextCubit>()
+                                  .toggleListening(false);
+                              context
+                                  .read<SpeechToTextCubit>()
+                                  .toggleText('Tap mic to speak');
+                            },
+                          );
+                          if (available) {
+                            context
+                                .read<SpeechToTextCubit>()
+                                .toggleListening(true);
+                            context
+                                .read<SpeechToTextCubit>()
+                                .toggleText('Listening...');
+
+                            speech.listen(
+                              onResult: (value) {
+                                context
+                                    .read<SpeechToTextCubit>()
+                                    .toggleMessage(value.recognizedWords);
+                              },
+                            );
+                          } else {
+                            context.read<SpeechToTextCubit>().toggleMessage(
+                                'Speech recognition not available');
+                          }
+                        } else {
+                          speech.stop();
+                          context
+                              .read<SpeechToTextCubit>()
+                              .toggleListening(false);
+                          context
+                              .read<SpeechToTextCubit>()
+                              .toggleText('Tap mic to speak');
+                        }
+                      },
+                      child: Image.asset('assets/images/mic 1.png',
+                          width: size.width / 4, height: size.width / 3),
+                    ),
                   ),
                 ),
                 Text(

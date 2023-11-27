@@ -1,8 +1,8 @@
 import 'package:diseases/business_logic/bloc/authentication/authentication_bloc.dart';
-import 'package:diseases/business_logic/cubit/speech_to_text/home_screen_cubit.dart';
 import 'package:diseases/constants/constants.dart';
 import 'package:diseases/constants/theme.dart';
 import 'package:diseases/repositories/authentication/auth_repository.dart';
+import 'package:diseases/repositories/extract_symptoms_repository/extract_symptoms_repository.dart';
 import 'package:diseases/repositories/user_repository/users_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +12,9 @@ import 'package:diseases/routes.dart' as route;
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'business_logic/bloc/auth_status/auth_status_bloc.dart';
+import 'business_logic/bloc/extract_symptoms/extract_symptoms_bloc.dart';
 import 'business_logic/cubit/profile_page_view/profile_view_cubit.dart';
+import 'business_logic/cubit/speech_to_text/speech_to_text_cubit.dart';
 import 'business_logic/cubit/togglePassword/toggle_password_cubit.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -41,6 +43,9 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<UsersRepository>(
           create: (context) => UsersRepository(),
         ),
+        RepositoryProvider<ExtractSymptomsRepository>(
+          create: (context) => ExtractSymptomsRepository(),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -53,6 +58,11 @@ class MyApp extends StatelessWidget {
           BlocProvider<AuthBloc>(
             create: (context) => AuthBloc(authRepository: AuthRepository()),
           ),
+          // extract symptoms bloc
+          BlocProvider<ExtractSymptomsBloc>(
+            create: (context) => ExtractSymptomsBloc(
+                extractSymptomsRepository: ExtractSymptomsRepository()),
+          ),
 
           // cubits
           BlocProvider<TogglePasswordCubit>(
@@ -60,6 +70,8 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<ProfileViewCubit>(
               create: (context) => ProfileViewCubit()),
+          BlocProvider<SpeechToTextCubit>(
+              create: (context) => SpeechToTextCubit()),
         ],
         child: BlocListener<AuthBloc, AuthState>(
           listener: (authcontext, state) {
@@ -96,13 +108,12 @@ class MyApp extends StatelessWidget {
           },
           child: BlocConsumer<AuthStatusBloc, AuthStatusState>(
             listener: (context, state) {
-              if (state is UserAuthenticated &&
-                  (currentUser.otpVerified ?? true)) {
+              if (state is UserAuthenticated && (currentUser.otpVerified)) {
                 navigatorKey.currentState!
                     .pushReplacementNamed(route.homeScreen);
               } else {
                 navigatorKey.currentState!
-                    .pushReplacementNamed(route.loginScreen);
+                    .pushReplacementNamed(route.homeScreen);
               }
               print('--------------auth status-------');
               print(state.toString());
@@ -118,7 +129,7 @@ class MyApp extends StatelessWidget {
               initialRoute:
                   context.read<AuthStatusBloc>().state is UserAuthenticated
                       ? route.homeScreen
-                      : route.loginScreen,
+                      : route.homeScreen,
             ),
           ),
         ),
