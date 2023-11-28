@@ -14,6 +14,11 @@ class UserUnauthenticated extends AuthStatusState {
   List<Object> get props => [];
 }
 
+class AccountDeleted extends AuthStatusState {
+  @override
+  List<Object> get props => [];
+}
+
 class UserAuthenticated extends AuthStatusState {
   final UserModel user;
   const UserAuthenticated({required this.user});

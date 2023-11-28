@@ -13,7 +13,8 @@ abstract class BaseUsersRepository {
     required String lastName,
     required String email,
     required String userId,
+    required String password
   }) async {}
-  Future<bool?> deleteUser({required String userId}) async {}
+ 
   Future<UserModel?> getUser({required String userId}) async {}
 }

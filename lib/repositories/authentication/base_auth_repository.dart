@@ -15,5 +15,6 @@ abstract class BaseAuthRepository {
       required String otp}) async {}
   Future<bool?> sendOtp({required String email}) async {}
   Future<UserModel?> checkUser() async {}
+  Future<bool?> deleteUser({required String userId}) async {}
   Future<bool?> logOut() async {}
 }

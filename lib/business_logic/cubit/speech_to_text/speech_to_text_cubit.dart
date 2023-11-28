@@ -19,7 +19,10 @@ class SpeechToTextCubit extends Cubit<SpeechToTextState> {
   }
 
   void toggleMessage(String message) {
-    emit(state.copyWith(message: message));
+    state.controller.text = message;
+    print('after chagning before emitting');
+    print(state.controller.toString());
+    emit(state.copyWith(message: message, controller: state.controller));
   }
 
   void testModel(List<int> dataList) async {

@@ -20,6 +20,12 @@ class SuggestionsScreen extends StatelessWidget {
         elevation: 0,
         backgroundColor: AppColors.greyLightColor,
         iconTheme: const IconThemeData(color: AppColors.primary, size: 40),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
       ),
       backgroundColor: AppColors.greyLightColor,
       drawer: const CustomDrawer(),

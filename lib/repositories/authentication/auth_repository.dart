@@ -99,6 +99,28 @@ class AuthRepository extends BaseAuthRepository {
   }
 
   @override
+  Future<bool> deleteUser({required String userId}) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    final response = await http.post(Uri.parse(Environment.DELETE_USER_URL),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({"userId": userId}));
+    print(response.body);
+    final responseData = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      if ((responseData).containsKey('message')) {
+        return true;
+      }
+      return true;
+    } else {
+      throw Exception(responseData['message'] ??
+          responseData['error'] ??
+          'Failed to delete user');
+    }
+  }
+
+  @override
   Future<UserModel> checkUser() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userFromPrefs = preferences.getString('user');

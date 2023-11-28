@@ -1,4 +1,5 @@
 import 'package:diseases/business_logic/bloc/authentication/authentication_bloc.dart';
+import 'package:diseases/business_logic/bloc/update_profile/update_profile_bloc.dart';
 import 'package:diseases/constants/constants.dart';
 import 'package:diseases/constants/theme.dart';
 import 'package:diseases/repositories/authentication/auth_repository.dart';
@@ -12,6 +13,7 @@ import 'package:diseases/routes.dart' as route;
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'business_logic/bloc/auth_status/auth_status_bloc.dart';
+import 'business_logic/bloc/delete_account/delete_account_bloc.dart';
 import 'business_logic/bloc/extract_symptoms/extract_symptoms_bloc.dart';
 import 'business_logic/cubit/profile_page_view/profile_view_cubit.dart';
 import 'business_logic/cubit/speech_to_text/speech_to_text_cubit.dart';
@@ -63,6 +65,15 @@ class MyApp extends StatelessWidget {
             create: (context) => ExtractSymptomsBloc(
                 extractSymptomsRepository: ExtractSymptomsRepository()),
           ),
+          // profile update bloc
+          BlocProvider<UpdateProfileBloc>(
+            create: (context) =>
+                UpdateProfileBloc(repository: UsersRepository()),
+          ),
+          BlocProvider<DeleteAccountBloc>(
+            create: (context) =>
+                DeleteAccountBloc(authRepository: AuthRepository()),
+          ),
 
           // cubits
           BlocProvider<TogglePasswordCubit>(
@@ -108,12 +119,13 @@ class MyApp extends StatelessWidget {
           },
           child: BlocConsumer<AuthStatusBloc, AuthStatusState>(
             listener: (context, state) {
+              print(state.toString());
               if (state is UserAuthenticated && (currentUser.otpVerified)) {
                 navigatorKey.currentState!
                     .pushReplacementNamed(route.homeScreen);
-              } else {
+              } else if (state is UserUnauthenticated) {
                 navigatorKey.currentState!
-                    .pushReplacementNamed(route.homeScreen);
+                    .pushReplacementNamed(route.loginScreen);
               }
               print('--------------auth status-------');
               print(state.toString());
@@ -127,9 +139,10 @@ class MyApp extends StatelessWidget {
               theme: themeData(),
               onGenerateRoute: (settings) => route.onGeneratedRoute(settings),
               initialRoute:
-                  context.read<AuthStatusBloc>().state is UserAuthenticated
+                  context.read<AuthStatusBloc>().state is UserAuthenticated &&
+                          (currentUser.otpVerified)
                       ? route.homeScreen
-                      : route.homeScreen,
+                      : route.loginScreen,
             ),
           ),
         ),

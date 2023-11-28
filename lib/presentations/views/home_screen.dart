@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:diseases/business_logic/bloc/extract_symptoms/extract_symptoms_bloc.dart';
 import 'package:diseases/business_logic/cubit/speech_to_text/speech_to_text_cubit.dart';
 import 'package:diseases/constants/colors.dart';
+import 'package:diseases/constants/constants.dart';
 import 'package:diseases/presentations/widgets/custom_drawer.dart';
 import 'package:diseases/presentations/widgets/success_dialogue.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +12,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
-import '../../constants/constants.dart';
 import '../../routes.dart' as route;
 
 class HomeScreen extends StatelessWidget {
@@ -25,6 +27,7 @@ class HomeScreen extends StatelessWidget {
     var isListening = state.isListening;
     var message = state.message;
     final TextEditingController _symptomsController = state.controller;
+    print(jsonEncode(currentUser));
 
     return Scaffold(
         appBar: AppBar(
@@ -159,6 +162,8 @@ class HomeScreen extends StatelessWidget {
                                 context
                                     .read<SpeechToTextCubit>()
                                     .toggleMessage(value.recognizedWords);
+                                print('after chagning after emitting');
+                                print(state.controller.toString());
                               },
                             );
                           } else {

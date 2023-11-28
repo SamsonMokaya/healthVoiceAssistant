@@ -29,17 +29,18 @@ class SuggestionsCard extends StatelessWidget {
                   height: 2,
                 ),
               ),
-              ElevatedButton(
+              TextButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    backgroundColor: AppColors.blueDarkColor),
-                child: const Text(
-                  'Learn more',
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  backgroundColor: AppColors.blueDarkColor.withOpacity(.6),
+                ),
+                child: Text(
+                  '${(suggestion.accuracy * 100).toStringAsFixed(2)}%',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 10,
                     fontFamily: 'Istok Web',

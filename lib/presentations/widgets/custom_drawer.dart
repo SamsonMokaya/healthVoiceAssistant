@@ -66,13 +66,13 @@ class CustomDrawer extends StatelessWidget {
           //     leading: const Icon(Icons.star),
           //     title: const Text('Rate Us'),
           //     onTap: () {}),
-          ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Settings'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, route.settingsScreen);
-              }),
+          // ListTile(
+          //     leading: const Icon(Icons.settings),
+          //     title: const Text('Settings'),
+          //     onTap: () {
+          //       Navigator.pop(context);
+          //       Navigator.pushNamed(context, route.settingsScreen);
+          //     }),
           ListTile(
               leading: const Icon(Icons.logout),
               title: const Text('Log out'),

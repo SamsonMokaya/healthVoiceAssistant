@@ -9,12 +9,12 @@ import 'base_users_repository.dart';
 
 class UsersRepository extends BaseUsersRepository {
   @override
-  Future<UserModel> updateProfile({
-    required String firstName,
-    required String lastName,
-    required String email,
-    required String userId,
-  }) async {
+  Future<UserModel> updateProfile(
+      {required String firstName,
+      required String lastName,
+      required String email,
+      required String userId,
+      required String password}) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     final response = await http.put(Uri.parse(Environment.UPDATE_USER_URL),
         headers: {
@@ -25,9 +25,18 @@ class UsersRepository extends BaseUsersRepository {
             "firstName": firstName,
             "lastName": lastName,
             "email": email,
+            "password": password,
             "userId": userId
           },
         ));
+
+  print(jsonEncode({
+      "firstName": firstName,
+      "lastName": lastName,
+      "email": email,
+      "password": password,
+      "userId": userId
+    }));
 
     final responseData = jsonDecode(response.body);
     if (response.statusCode == 200) {
@@ -69,26 +78,6 @@ class UsersRepository extends BaseUsersRepository {
       throw Exception(responseData['message'] ??
           responseData['error'] ??
           'Failed to update user password');
-    }
-  }
-
-  @override
-  Future<bool> deleteUser({required String userId}) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    final response =
-        await http.delete(Uri.parse(Environment.DELETE_USER_URL), headers: {
-      'Content-Type': 'application/json',
-    });
-
-    final responseData = jsonDecode(response.body);
-    if (response.statusCode == 200) {
-      bool deleted = responseData['data'];
-      preferences.remove('user');
-      return deleted;
-    } else {
-      throw Exception(responseData['message'] ??
-          responseData['error'] ??
-          'Failed to delete user');
     }
   }
 
